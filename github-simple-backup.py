@@ -22,13 +22,13 @@ def clone_or_pull(username, backup_dir, repo):
     print "Backing up %s..." % repo_name
     print "* %s" % repo_desc
 
-    repo_dir = '/'.join([backup_dir, repo_name])
+    repo_dir = '/'.join([backup_dir, repo_name + '.git'])
     if os.path.exists(repo_dir):
-        call(['git', 'pull'], cwd=repo_dir)
+        call(['git', 'fetch'], cwd=repo_dir)
     else:
         clone_url = CLONE_URL % {'username': username,
                                  'repo_name': repo_name}
-        call(['git', 'clone', clone_url], cwd=backup_dir)
+        call(['git', 'clone', '--mirror', clone_url], cwd=backup_dir)
     print
 
 def main():
